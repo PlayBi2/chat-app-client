@@ -1,19 +1,22 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import SideBar from "../components/side-bar";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import '../style/scroll-bar.css'
+import "../style/scroll-bar.css";
+import { REMOVE_ACTIVE_USER } from "../redux/slice/auth-slice";
 const Home = () => {
   const state = useSelector((state) => state.auth);
   const nav = useNavigate();
+  const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   if (state.isLoggin === false) {
-  //     nav("/login");
-  //   }
-  // }, []);
+
+  useEffect(() => {
+    if (state.isLoggin === false) {
+      nav("/login");
+    }
+  }, []);
 
   return (
     <div className="grid grid-cols-3_9 h-screen w-full overflow-hidden">

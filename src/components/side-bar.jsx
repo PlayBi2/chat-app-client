@@ -5,15 +5,28 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { REMOVE_ACTIVE_USER } from "../redux/slice/auth-slice";
+import { useNavigate } from "react-router-dom";
 
 const SideBar = () => {
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const handleLogout = () => {
+    dispatch(REMOVE_ACTIVE_USER());
+    localStorage.removeItem("token");
+    navigate('/login')
+  };
 
   return (
     <div className="border-r-[1px] border-solid border-[#ebebeb] bg-purple-600 text-white">
       <div className="px-4 py-1 flex justify-between items-center border-b-[1px] border-solid border-[#ebebeb]">
         <Avatar />
-        <button className="block text-sm font-medium border-solid border-2 border-slate-200 px-4 py-2 rounded-md transition-all ease-linear hover:border-sky-200 hover:text-sky-200">
+        <button
+          className="block text-sm font-medium border-solid border-2 border-slate-200 px-4 py-2 rounded-md transition-all ease-linear hover:border-sky-200 hover:text-sky-200"
+          onClick={() => handleLogout()}
+        >
           Đăng xuất
         </button>
       </div>
