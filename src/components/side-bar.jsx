@@ -5,24 +5,40 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { REMOVE_ACTIVE_USER } from "../redux/slice/auth-slice";
 import { useNavigate } from "react-router-dom";
+import { AvatarGenerator } from "random-avatar-generator";
+import {
+  uniqueNamesGenerator,
+  adjectives,
+  names,
+} from "unique-names-generator";
 
 const SideBar = () => {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleLogout = () => {
     dispatch(REMOVE_ACTIVE_USER());
     localStorage.removeItem("token");
-    navigate('/login')
+    navigate("/login");
   };
+  const generator = new AvatarGenerator();
+  const name = uniqueNamesGenerator({
+    dictionaries: [adjectives, names],
+    separator: " ",
+    style: "capital",
+  });
+
+  const authStore = useSelector(state => state.auth)
+  console.log(authStore)
+
 
   return (
     <div className="border-r-[1px] border-solid border-[#ebebeb] bg-purple-600 text-white">
       <div className="px-4 py-1 flex justify-between items-center border-b-[1px] border-solid border-[#ebebeb]">
-        <Avatar />
+        <Avatar generator={generator} name={name} username={authStore.name} />
         <button
           className="block text-sm font-medium border-solid border-2 border-slate-200 px-4 py-2 rounded-md transition-all ease-linear hover:border-sky-200 hover:text-sky-200"
           onClick={() => handleLogout()}
@@ -61,17 +77,17 @@ const SideBar = () => {
   );
 };
 
-const Avatar = () => {
+const Avatar = ({ generator, name, username }) => {
   return (
     <div className="flex items-center py-2 select-none">
       <div className="w-10 h-10 rounded-full overflow-hidden">
         <img
-          src="https://phunuvietnam.mediacdn.vn/media/news/33abffcedac43a654ac7f501856bf700/anh-profile-tiet-lo-g-ve-ban-1.jpg"
-          alt="user"
+          src={generator.generateRandomAvatar(name)}
+          alt={name}
           className="w-full h-full object-cover object-center"
         />
       </div>
-      <p className="text-sm font-medium ml-2">John</p>
+      <p className="text-sm font-medium ml-2">{username}</p>
     </div>
   );
 };

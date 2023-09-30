@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isLoggin: false,
-  username: "",
+  name: "",
   password: "",
   level: "",
 };
@@ -14,10 +14,10 @@ const authSlice = createSlice({
     SET_ACTIVE_USER: (state, action) => {
       state.password = action.payload.password;
       state.name = action.payload.name;
-      state.level = action.payload.level;
+      state.level = action.payload.role;
       state.email = action.payload.email;
       state.isLoggin = true;
-      console.log({ payload: action.payload });
+      console.log({ payload: action.payload,state });
     },
     REMOVE_ACTIVE_USER: (state, action) => {
       state.password = null;

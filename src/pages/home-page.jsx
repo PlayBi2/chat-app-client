@@ -6,11 +6,12 @@ import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../style/scroll-bar.css";
 import { REMOVE_ACTIVE_USER } from "../redux/slice/auth-slice";
+
+
 const Home = () => {
   const state = useSelector((state) => state.auth);
   const nav = useNavigate();
   const dispatch = useDispatch();
-
 
   useEffect(() => {
     if (state.isLoggin === false) {

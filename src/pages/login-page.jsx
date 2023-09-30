@@ -9,7 +9,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const validateForm = () => {
     const filter =
       /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -31,17 +31,19 @@ const Login = () => {
         email,
         password,
       });
-      if (res.data) {
-        localStorage.setItem("token", res.data.accessToken);
-
-        const { password, email, name, level } = res.data.data;
-        console.log(res.data.data)
-        dispatch(SET_ACTIVE_USER({ password, email, name, level }));
-        navigate('/')
+      const response = res.data;
+      if (response.data) {
+        localStorage.setItem("token", response.accessToken);
+        console.log(response.data)
+        const { password, email, name, role } = response.data;
+        dispatch(SET_ACTIVE_USER({ password, email, name, role }));
+        navigate("/");
+        setEmail("");
+        setPassword("");
+      } else {
+        alert(response.error);
       }
     }
-    setEmail("");
-    setPassword("");
   };
 
   useEffect(() => {
